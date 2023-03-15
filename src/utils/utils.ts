@@ -75,7 +75,7 @@ export class Db {
         };
       case "getipfs":
         return {
-          path: `/${this.config.address}?adminName=${this.config.admin.name}&adminPass=${this.config.admin.pass}&secret=${this.config.secret}`,
+          path: `/${this.config.address}?adminName=${this.config.admin.name}&adminPass=${this.config.admin.pass}&appId=${this.config.appId}&secret=${this.config.secret}`,
           body: null,
         };
     }
@@ -134,7 +134,7 @@ export class Db {
     value: string
   ): Promise<any> {
     try {
-      const config = this.getPath("updatedoc", collection);
+      const config = this.getPath("deletedoc", collection);
       const res = await this.agent.delete(
         `${config.path}filter=${filter}&value=${value}`
       );
