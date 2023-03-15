@@ -83,7 +83,7 @@ install this package in your project directory
 
    ``` javascript
 
-      await userCollection.deleteDoc({ _id: "1233434854323485" },{ lastName: "WICK" });
+      await userCollection.deleteDoc({ _id: "1233434854323485" });
 
    
    ```
