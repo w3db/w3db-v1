@@ -25,7 +25,7 @@ type Data = {
 }
 
 
-export class DW3 {
+export class DW3JS {
   private config:Data = {
     secret:null,
     gateway:null,

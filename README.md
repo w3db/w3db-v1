@@ -1,18 +1,18 @@
-# DW3 - DECENTRALIZED DATABASE
+# DW3JS - DECENTRALIZED DATABASE
 
-DB3 is a decentralised database uses IPFS for managing data 
+DW3JS is a decentralised database uses IPFS for managing data 
 
 
 ## Usage
 
-go to dw3 official page and create app for your project
+go to dw3js official page and create app for your project
 
 install this package in your project directory
 
 ```
    # Yarn
 
-   $ yarn add dw3
+   $ yarn add dw3js
 
 ```
 
@@ -22,7 +22,7 @@ install this package in your project directory
 ``` 
   # npm
 
-  $ npm i dw3
+  $ npm i dw3js
 
 ```   
 
@@ -30,7 +30,7 @@ install this package in your project directory
 ## Creating DW3 Instance 
 
    ``` javascript
-       const { DW3 } = require("dw3")
+       const { DW3JS } = require("dw3")
 
        const config = {
           address : // Your Wallet address
@@ -39,7 +39,7 @@ install this package in your project directory
           url     : // Your application url or localhost url for development mode
        }
 
-       const dw3 = new DW3(config);
+       const dw3js = new DW3JS(config);
 
         
    ```
@@ -49,7 +49,7 @@ install this package in your project directory
    ``` javascript
    // adding new collection
    
-   const userCollection = dw3.Collection("Users");
+   const userCollection = dw3js.Collection("Users");
 
    //
 
