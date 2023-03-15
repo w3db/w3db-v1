@@ -25,7 +25,7 @@ type Data = {
 }
 
 
-export class IPFSDB {
+export class DW3 {
   private config:Data = {
     secret:null,
     gateway:null,

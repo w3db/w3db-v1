@@ -75,7 +75,7 @@ export class Db {
         };
       case "getipfs":
         return {
-          path: `/${this.config.address}?adminName=${this.config.admin.name}&adminPass=${this.config.admin.pass}&appId=${this.config.appId}&secret=${this.config.secret}`,
+          path: `/${this.config.address}/ipfs?adminName=${this.config.admin.name}&adminPass=${this.config.admin.pass}&appId=${this.config.appId}&secret=${this.config.secret}`,
           body: null,
         };
     }
@@ -92,7 +92,7 @@ export class Db {
         throw new Error(res.data.error);
       }
     } catch (error: any) {
-      console.log(error.message);
+      console.clear();
     }
   }
 
@@ -109,7 +109,7 @@ export class Db {
         return data;
       }
     } catch (error: any) {
-      console.log(error);
+      console.clear();
     }
   }
 
@@ -125,7 +125,7 @@ export class Db {
         throw new Error(res.data.error);
       }
     } catch (error: any) {
-      console.log(error.message);
+      console.clear();
     }
   }
   async delete(
@@ -142,7 +142,7 @@ export class Db {
         throw new Error(res.data.error);
       }
     } catch (error: any) {
-      console.log(error.message);
+      console.clear();
     }
   }
 
@@ -157,7 +157,7 @@ export class Db {
         return data;
       }
     } catch (error: any) {
-      console.log(error.message);
+      console.clear();
     }
   }
   
@@ -183,7 +183,7 @@ export class Db {
           }
         }
       } catch (error: any) {
-        console.log(error);
+        console.clear();
       }
   }
 
