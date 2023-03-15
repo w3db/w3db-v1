@@ -53,7 +53,7 @@ install this package in your project directory
 
    //
 
-   await userCollection.addDoc({ _id: "1233434854323485",firstName: "JOHN", lastName: "DOE" });
+  const isSuccess = await userCollection.addDoc({ _id: "1233434854323485",firstName: "JOHN", lastName: "DOE" });
 
 
    ```
@@ -73,7 +73,7 @@ install this package in your project directory
 
    ``` javascript
 
-      await userCollection.updateDoc({ _id: "1233434854323485" },{ lastName: "WICK" });
+    const isSuccess =  await userCollection.updateDoc({ _id: "1233434854323485" },{ lastName: "WICK" });
 
    
    ```
@@ -83,7 +83,17 @@ install this package in your project directory
 
    ``` javascript
 
-      await userCollection.deleteDoc({ _id: "1233434854323485" });
+    const isSuccess =  await userCollection.deleteDoc({ _id: "1233434854323485" });
+
+   
+   ```
+
+
+## DELETING A COLLECTION 
+
+   ``` javascript
+
+     const isSuccess = await userCollection.delete()
 
    
    ```

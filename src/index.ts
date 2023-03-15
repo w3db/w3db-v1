@@ -124,15 +124,23 @@ type param = {
   }
 
   async addDoc(doc: param) {
-    this.Db.add(this.name,doc)
+   const data = this.Db.add(this.name,doc)
+   return data
   }
 
   async updateDoc(filter:Object,update:Object){
-     this.Db.put(this.name,filter,update)
+    const data = this.Db.put(this.name,filter,update)
+    return data
   }
 
   async deleteDoc(filter:Object){
-    this.Db.delete(this.name,Object.keys(filter)[0],Object.values(filter)[0])
+    const data = this.Db.delete(this.name,Object.keys(filter)[0],Object.values(filter)[0])
+    return data
+  }
+
+  async delete(){
+   const data =  this.Db.removeCollection(this.name)
+   return data
   }
 }
 
