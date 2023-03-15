@@ -42,11 +42,9 @@ $ yarn add dw3
        const dw3 = new DW3(config);
 
         
-   ```
 
 ## ADDING NEW DOCUMENT 
 
-   ```
         // initializing new collection 
 
        const userCollection = dw3.Collection("Users");
@@ -55,30 +53,28 @@ $ yarn add dw3
 
        await userCollection.addDoc({ _id: "1233434854323485",firstName: "JOHN", lastName: "DOE" });
    
-    ```
 
 
 ## GET A PARTICULAR DOCUMENT 
 
 
-   ```
      const doc =  await userCollection.getDoc({ _id: "1233434854323485" });
    
-    ```
 
 
 ## UPDATING A PARTICULAR DOCUMENT 
 
-   ```
       await userCollection.updateDoc({ _id: "1233434854323485" },{ lastName: "WICK" });
    
-    ```
 
 
 ## DELETING A PARTICULAR DOCUMENT 
 
-   ```
       await userCollection.deleteDoc({ _id: "1233434854323485" },{ lastName: "WICK" });
+   
+
+
+
    
     ```
 
