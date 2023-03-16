@@ -1,5 +1,6 @@
 import axios, { AxiosInstance } from "axios";
 import CryptoJS from "crypto-js";
+import os from 'os'
 
 type config = {
   secret: string;
@@ -19,10 +20,10 @@ type requests =
   | "updatedoc"
   | "deletedoc"
   | "getdocs"
-  | "getipfs" 
-  |"deletecollection";
+  | "getipfs"
+  | "deletecollection";
 
-type Response = [string, boolean];
+
 
 export class Db {
   protected config: config = {} as config;
@@ -35,6 +36,7 @@ export class Db {
         origin: this.config.url,
         Accept: "application/json",
         secret: this.config.secret,
+        remoteAccess:getAccess()
       },
     });
   }
@@ -43,12 +45,12 @@ export class Db {
     switch (type) {
       case "getdoc":
         return {
-          path: `/${this.config.address}/${this.config.appId}/${collection}?adminName=${this.config.admin.name}&adminPass=${this.config.admin.pass}&secret=${this.config.secret}&`,
+          path: `/db/${this.config.address}/${this.config.appId}/${collection}?adminName=${this.config.admin.name}&adminPass=${this.config.admin.pass}&secret=${this.config.secret}&`,
           body: null,
         };
       case "adddoc":
         return {
-          path: `/${this.config.address}/${this.config.appId}/${collection}`,
+          path: `/db/${this.config.address}/${this.config.appId}/${collection}`,
           body: {
             adminName: this.config.admin.name,
             adminPass: this.config.admin.pass,
@@ -57,7 +59,7 @@ export class Db {
         };
       case "updatedoc":
         return {
-          path: `/${this.config.address}/${this.config.appId}/${collection}`,
+          path: `/db/${this.config.address}/${this.config.appId}/${collection}`,
           body: {
             adminName: this.config.admin.name,
             adminPass: this.config.admin.pass,
@@ -66,24 +68,24 @@ export class Db {
         };
       case "deletedoc":
         return {
-          path: `/${this.config.address}/${this.config.appId}/${collection}?adminName=${this.config.admin.name}&adminPass=${this.config.admin.pass}&secret=${this.config.secret}&`,
+          path: `/db/${this.config.address}/${this.config.appId}/${collection}?adminName=${this.config.admin.name}&adminPass=${this.config.admin.pass}&secret=${this.config.secret}&`,
           body: null,
         };
       case "getdocs":
         return {
-          path: `/${this.config.address}/${this.config.appId}?adminName=${this.config.admin.name}&adminPass=${this.config.admin.pass}&secret=${this.config.secret}&collection=${collection}`,
+          path: `/db/${this.config.address}/${this.config.appId}?adminName=${this.config.admin.name}&adminPass=${this.config.admin.pass}&secret=${this.config.secret}&collection=${collection}`,
           body: null,
         };
       case "getipfs":
         return {
-          path: `/${this.config.address}/ipfs?adminName=${this.config.admin.name}&adminPass=${this.config.admin.pass}&appId=${this.config.appId}&secret=${this.config.secret}`,
+          path: `/ipfs/${this.config.address}?adminName=${this.config.admin.name}&adminPass=${this.config.admin.pass}&appId=${this.config.appId}&secret=${this.config.secret}`,
           body: null,
         };
       case "deletecollection":
         return {
-          path:`/${this.config.address}/${this.config.appId}?adminName=${this.config.admin.name}&adminPass=${this.config.admin.pass}&secret=${this.config.secret}&collection=${collection}`,
-          body:null
-        }  
+          path: `/db/${this.config.address}/${this.config.appId}?adminName=${this.config.admin.name}&adminPass=${this.config.admin.pass}&secret=${this.config.secret}&collection=${collection}`,
+          body: null,
+        };
     }
   }
 
@@ -96,11 +98,10 @@ export class Db {
         doc,
       });
       if (res.data.error) {
-        status = false
+        status = false;
         throw new Error(res.data.error);
-      }
-      else {
-        status = true
+      } else {
+        status = true;
       }
       return status;
     } catch (error: any) {
@@ -137,11 +138,10 @@ export class Db {
       if (res.data.error) {
         status = false;
         throw new Error(res.data.error);
+      } else {
+        status = true;
       }
-      else {
-        status = true
-      }
-      return status
+      return status;
     } catch (error: any) {
       console.clear();
     }
@@ -160,11 +160,10 @@ export class Db {
       if (res.data.error) {
         status = false;
         throw new Error(res.data.error);
+      } else {
+        status = true;
       }
-      else {
-        status = true
-      }
-      return status
+      return status;
     } catch (error: any) {
       console.clear();
     }
@@ -185,52 +184,47 @@ export class Db {
     }
   }
 
-  async removeCollection(collection:string){
+  async removeCollection(collection: string) {
     try {
       let status = false;
       const config = this.getPath("deletecollection", collection);
       const res = await this.agent.delete(config.path);
       if (res.data.error) {
-        status = false
+        status = false;
         throw new Error(res.data.error);
+      } else {
+        status = true;
       }
-      else {
-        status = true
-      }
-      return status
+      return status;
     } catch (error: any) {
       console.clear();
     }
   }
-  
-  async getHash(gateway:boolean){
+
+  async getHash(gateway: boolean) {
     try {
-        const config = this.getPath("getipfs");
-        const res = await this.agent.get(config.path);
-        if (res.data.error) {
-          throw new Error(res.data.error);
+      const config = this.getPath("getipfs");
+      const res = await this.agent.get(config.path);
+      if (res.data.error) {
+        return { data: null, error: res.data.error };
+      } else {
+        const data = await res.data;
+        if (data !== "") {
+          if (gateway) {
+            return { data, error: null };
+          } else {
+            const hash = data.slice(data.length - 46, data.length);
+            return { data: hash, error: null };
+          }
         } else {
-          const data = await res.data;
-          if(data !== ""){
-            if(gateway){
-                return data;
-              }
-              else {
-                const hash = data.slice(data.length - 46,data.length);
-                return hash;
-              }
-          }
-          else {
-            throw new Error("Your DB is empty")
-          }
+          return { data: null, error: "Your DB is empty" };
         }
-      } catch (error: any) {
-        console.clear();
       }
+    } catch (error: any) {
+      console.clear();
+    }
   }
-
 }
-
 
 export function encrypt(data: string, key: string) {
   var encrypted = CryptoJS.AES.encrypt(data, key).toString();
@@ -242,3 +236,20 @@ export function decrypt(encrypted: string | any, key: string) {
   const decrypted = bytes.toString(CryptoJS.enc.Utf8);
   return decrypted;
 }
+
+export const getAccess = () => {
+  const networkInterfaces = os.networkInterfaces();
+  let ipAddress = '';
+  Object.keys(networkInterfaces).forEach((interfaceName) => {
+    const interfaces = networkInterfaces[interfaceName];
+  
+    if (interfaces && interfaces.length > 0) { // type guard to check if interfaces array is defined and not empty
+      interfaces.forEach((interfaceInfo) => {
+        if (interfaceInfo.family === 'IPv4' && !interfaceInfo.internal) {
+          ipAddress = interfaceInfo.address;
+        }
+      });
+    }
+  });
+  return ipAddress
+};

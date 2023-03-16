@@ -1,12 +1,11 @@
 import { Db,decrypt,encrypt } from './utils/utils';
 
 
-
 type Config = {
   appId:string,
   secretString:string;
   address:string,
-  url:string
+  url:string;
 }
 
 type admin = {
@@ -38,6 +37,8 @@ export class DW3JS {
     db:null,
     url:null
   }
+
+
 
   constructor(config:Config){
     if(!config.appId && !config.secretString && !config.address && !config.url){
@@ -71,7 +72,7 @@ export class DW3JS {
         this.config.admin.name = data[2]
         this.config.admin.pass = encrypt(data[3],config.appId);
         this.config.address = encrypt(config.address,config.appId)
-        this.config.url = encrypt(config.url,config.appId)
+        this.config.url = encrypt(config.url,config.appId);
         this.config.db = new Db({address:config.address,appId:config.appId,secret:data[1],admin:{name:data[2],pass:data[3]},gateway:data[0],url:config.url})
       }
     }
@@ -79,8 +80,13 @@ export class DW3JS {
 
 
   public async getIpfsHash(gateway:boolean = false){
-    const hash = await this.config.db.getHash(gateway);
-    return hash;
+    const {data , error } = await this.config.db.getHash(gateway);
+    if(data && !error){
+      return data
+    }
+    else {
+      throw new Error(error)
+    }
   }
 
   public Collection(name:string):(Collection | null){
@@ -143,6 +149,5 @@ type param = {
    return data
   }
 }
-
 
 
