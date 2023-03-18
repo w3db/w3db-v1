@@ -1,18 +1,18 @@
-# DW3JS - DECENTRALIZED DATABASE
+# W3DB - DECENTRALIZED DATABASE
 
-DW3JS is a decentralised database uses IPFS for managing data 
+W3DB is a decentralised database uses IPFS for managing data 
 
 
 ## Usage
 
-go to dw3js official page and create app for your project
+go to w3db official page and create app for your project
 
 install this package in your project directory
 
 ```
    # Yarn
 
-   $ yarn add dw3js
+   $ yarn add w3db
 
 ```
 
@@ -22,15 +22,15 @@ install this package in your project directory
 ``` 
   # npm
 
-  $ npm i dw3js
+  $ npm i w3db
 
 ```   
 
 
-## Creating DW3 Instance 
+## Creating W3DB Instance 
 
    ``` javascript
-       const { DW3JS } = require("dw3")
+       const { W#DB } = require("dw3")
 
        const config = {
           address : // Your Wallet address
@@ -39,7 +39,7 @@ install this package in your project directory
           url     : // Your application url or localhost url for development mode
        }
 
-       const dw3js = new DW3JS(config);
+       const w3db = new W3DB(config);
 
         
    ```
@@ -49,7 +49,7 @@ install this package in your project directory
    ``` javascript
    // adding new collection
    
-   const userCollection = dw3js.Collection("Users");
+   const userCollection = w3db.Collection("Users");
 
    //
 

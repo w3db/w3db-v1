@@ -24,7 +24,7 @@ type Data = {
 }
 
 
-export class DW3JS {
+export class W3DB {
   private config:Data = {
     secret:null,
     gateway:null,
@@ -125,18 +125,33 @@ type param = {
   }
 
   async getDoc(filter: Object) {
-    const doc = await this.Db.get(this.name,Object.keys(filter)[0],Object.values(filter)[0]);
-    return doc
+    const { data ,error} = await this.Db.get(this.name,Object.keys(filter)[0],Object.values(filter)[0]);
+    if(data && !error){
+      return data
+    }
+    else {
+      throw new Error(error)
+    }
   }
 
   async addDoc(doc: param) {
-   const data = this.Db.add(this.name,doc)
-   return data
+   const { status , error } = await this.Db.add(this.name,doc)
+   if(status && !error ){
+    return status
+   }
+   else {
+    throw new Error(error)
+   }
   }
 
   async updateDoc(filter:Object,update:Object){
-    const data = this.Db.put(this.name,filter,update)
-    return data
+    const {status , error } = await this.Db.put(this.name,filter,update)
+    if(status && !error){
+      return status
+    }
+    else {
+      throw new Error(error)
+    }
   }
 
   async deleteDoc(filter:Object){

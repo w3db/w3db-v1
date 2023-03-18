@@ -27,10 +27,10 @@ type requests =
 
 export class Db {
   protected config: config = {} as config;
-  protected agent!: AxiosInstance;
+  protected Db!: any;
   constructor(config: config) {
     this.config = config;
-    this.agent = axios.create({
+    this.Db = axios.create({
       baseURL: config.gateway,
       headers: {
         origin: this.config.url,
@@ -91,19 +91,16 @@ export class Db {
 
   async add(collection: string, doc: any): Promise<any> {
     try {
-      let status = false;
       const config = this.getPath("adddoc", collection);
-      const res = await this.agent.post(config.path, {
+      const res = await this.Db.post(config.path, {
         ...config.body,
         doc,
       });
       if (res.data.error) {
-        status = false;
-        throw new Error(res.data.error);
+        return { status: false, error: res.data.error }
       } else {
-        status = true;
+        return { status: true, error: null }
       }
-      return status;
     } catch (error: any) {
       console.clear();
     }
@@ -112,14 +109,14 @@ export class Db {
   async get(collection: string, filter: string, value: string): Promise<any> {
     try {
       const config = this.getPath("getdoc", collection);
-      const res = await this.agent.get(
+      const res = await this.Db.get(
         `${config.path}filter=${filter}&value=${value}`
       );
       if (res.data.error) {
-        throw new Error(res.data.error);
+        return { data:null, error:res.data.error }
       } else {
         const data = await res.data;
-        return data;
+        return { data, error:null }
       }
     } catch (error: any) {
       console.clear();
@@ -128,20 +125,17 @@ export class Db {
 
   async put(collection: string, filter: Object, update: Object): Promise<any> {
     try {
-      let status = false;
       const config = this.getPath("updatedoc", collection);
-      const res = await this.agent.put(config.path, {
+      const res = await this.Db.put(config.path, {
         ...config.body,
         filter,
         update,
       });
       if (res.data.error) {
-        status = false;
-        throw new Error(res.data.error);
+        return { status: false , error:res.data.error}
       } else {
-        status = true;
+        return { status: true , error:null}
       }
-      return status;
     } catch (error: any) {
       console.clear();
     }
@@ -152,18 +146,15 @@ export class Db {
     value: string
   ): Promise<any> {
     try {
-      let status = false;
       const config = this.getPath("deletedoc", collection);
-      const res = await this.agent.delete(
+      const res = await this.Db.delete(
         `${config.path}filter=${filter}&value=${value}`
       );
       if (res.data.error) {
-        status = false;
-        throw new Error(res.data.error);
+        return { status: false, error:res.data.error }
       } else {
-        status = true;
+        return { status: true, error:null }
       }
-      return status;
     } catch (error: any) {
       console.clear();
     }
@@ -172,30 +163,27 @@ export class Db {
   async collection(collection: string): Promise<any> {
     try {
       const config = this.getPath("getdocs", collection);
-      const res = await this.agent.get(config.path);
+      const res = await this.Db.get(config.path);
       if (res.data.error) {
-        throw new Error(res.data.error);
+        return { data: null, error:res.data.error }
       } else {
         const data = await res.data;
-        return data;
+        return { data, error:null }
       }
     } catch (error: any) {
       console.clear();
     }
   }
 
-  async removeCollection(collection: string) {
+  async removeCollection(collection: string):Promise<any> {
     try {
-      let status = false;
       const config = this.getPath("deletecollection", collection);
-      const res = await this.agent.delete(config.path);
+      const res = await this.Db.delete(config.path);
       if (res.data.error) {
-        status = false;
-        throw new Error(res.data.error);
+        return { status: false, error:res.data.error }
       } else {
-        status = true;
+        return { status: true, error:null }
       }
-      return status;
     } catch (error: any) {
       console.clear();
     }
@@ -204,7 +192,7 @@ export class Db {
   async getHash(gateway: boolean) {
     try {
       const config = this.getPath("getipfs");
-      const res = await this.agent.get(config.path);
+      const res = await this.Db.get(config.path);
       if (res.data.error) {
         return { data: null, error: res.data.error };
       } else {
