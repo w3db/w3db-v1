@@ -1,6 +1,6 @@
 {
   "name": "w3db",
-  "version": "1.0.0",
+  "version": "1.0.12",
   "description": "",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

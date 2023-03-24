@@ -30,7 +30,7 @@ install this package in your project directory
 ## Creating W3DB Instance 
 
    ``` javascript
-       const { W#DB } = require("dw3")
+       const { W3DB } = require("w3db")
 
        const config = {
           address : // Your Wallet address
